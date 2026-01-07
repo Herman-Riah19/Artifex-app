@@ -51,15 +51,13 @@ cd boiler-plate-riah
 ### 2️⃣ Install dependencies
 
 ```bash
-npm install
-# or
-pnpm install
+bun install
 ```
 
 ### 3️⃣ Run the development server
 
 ```bash
-npm run dev
+bun dev
 ```
 
 Open your browser at 👉 **[http://localhost:3000](http://localhost:3000)**

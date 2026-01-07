@@ -52,8 +52,8 @@ export default function RegisterPage() {
         password: data.password,
       });
 
-      if (result.success) {
-        router.push("/login?message=Inscription réussie");
+      if (result) {
+        router.push("/login");
       } else {
         setError(result.message || "Erreur lors de l'inscription");
       }

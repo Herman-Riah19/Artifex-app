@@ -52,8 +52,9 @@ export default function LoginPage() {
 
       // Redirect to dashboard after successful login
       router.push("/dashboard");
-    } catch (err) {
-      setError("Invalid credentials");
+    } catch (err: any) {
+      setError(err.message || "Identifiants invalides");
+    } finally {
       setLoading(false);
     }
   };

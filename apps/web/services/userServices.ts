@@ -26,16 +26,18 @@ export class UserServices {
     password: string;
     name?: string;
   }) {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify(userData),
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message ?? "Login failed");
+    }
 
     return res.json();
   }
@@ -54,6 +56,12 @@ export class UserServices {
         body: JSON.stringify(credentials),
       },
     );
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message ?? "Login failed");
+    }
+
     const data = await res.json();
 
     useAuthStore.getState().login(data.user, data.token);
