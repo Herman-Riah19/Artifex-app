@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useAuthStore } from '@/lib/auth-store';
-import { Button } from '@repo/ui/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useAuthStore } from "@/store/auth-store";
+import { Button } from "@repo/ui/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export function UserMenu() {
   const user = useAuthStore((state) => state.user);
@@ -12,9 +12,9 @@ export function UserMenu() {
   const handleLogout = async () => {
     try {
       logout();
-      router.push('/login');
+      router.push("/login");
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 

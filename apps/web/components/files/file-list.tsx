@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from '@repo/ui/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/ui/card';
-import { Badge } from '@repo/ui/components/ui/badge';
-import { FileServices } from '@/services/fileServices';
-import { useAuthStore } from '@/lib/auth-store';
+import { useState, useEffect } from "react";
+import { Button } from "@repo/ui/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@repo/ui/components/ui/card";
+import { Badge } from "@repo/ui/components/ui/badge";
+import { FileServices } from "@/services/fileServices";
+import { useAuthStore } from "@/store/auth-store";
 
 interface FileListProps {
   refreshTrigger?: number;
@@ -14,23 +20,25 @@ interface FileListProps {
 export function FileList({ refreshTrigger }: FileListProps) {
   const [files, setFiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const token = useAuthStore.getState().token;
 
   const fetchFiles = async () => {
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const result = await FileServices.getAllFiles(token as string);
-      
+
       if (result.success) {
         setFiles(result.data || []);
       } else {
-        setError(result.message || 'Erreur lors de la récupération des fichiers');
+        setError(
+          result.message || "Erreur lors de la récupération des fichiers",
+        );
       }
     } catch (err) {
-      setError('Une erreur est survenue');
+      setError("Une erreur est survenue");
     } finally {
       setLoading(false);
     }
@@ -41,29 +49,29 @@ export function FileList({ refreshTrigger }: FileListProps) {
   }, [refreshTrigger]);
 
   const handleDelete = async (fileId: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce fichier?')) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce fichier?")) {
       return;
     }
 
     try {
       const result = await FileServices.deleteFile(fileId, token as string);
-      
+
       if (result.success) {
-        setFiles(files.filter(file => file.id !== fileId));
+        setFiles(files.filter((file) => file.id !== fileId));
       } else {
-        setError(result.message || 'Erreur lors de la suppression');
+        setError(result.message || "Erreur lors de la suppression");
       }
     } catch (err) {
-      setError('Une erreur est survenue');
+      setError("Une erreur est survenue");
     }
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   if (loading) {
@@ -80,9 +88,7 @@ export function FileList({ refreshTrigger }: FileListProps) {
     <Card>
       <CardHeader>
         <CardTitle>Liste des fichiers</CardTitle>
-        <CardDescription>
-          {files.length} fichier(s) trouvé(s)
-        </CardDescription>
+        <CardDescription>{files.length} fichier(s) trouvé(s)</CardDescription>
       </CardHeader>
       <CardContent>
         {error && (
@@ -90,7 +96,7 @@ export function FileList({ refreshTrigger }: FileListProps) {
             {error}
           </div>
         )}
-        
+
         {files.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
             Aucun fichier trouvé
@@ -98,13 +104,14 @@ export function FileList({ refreshTrigger }: FileListProps) {
         ) : (
           <div className="space-y-4">
             {files.map((file) => (
-              <div key={file.id} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={file.id}
+                className="flex items-center justify-between p-4 border rounded-lg"
+              >
                 <div className="flex-1">
                   <h4 className="font-medium">{file.name || file.filename}</h4>
                   <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="secondary">
-                      {file.type || 'Unknown'}
-                    </Badge>
+                    <Badge variant="secondary">{file.type || "Unknown"}</Badge>
                     <span className="text-sm text-gray-500">
                       {file.size && formatFileSize(file.size)}
                     </span>
@@ -119,7 +126,7 @@ export function FileList({ refreshTrigger }: FileListProps) {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => window.open(file.url, '_blank')}
+                    onClick={() => window.open(file.url, "_blank")}
                   >
                     Voir
                   </Button>
