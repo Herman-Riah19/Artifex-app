@@ -16,6 +16,7 @@ import { Docs } from "@tsed/swagger";
 import { WalletModel, WalletsRepository } from "prisma/generated";
 import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
 import { WalletDto } from "src/validators/WalletDto";
+import { UseWalletParams } from "src/decorators/useWalletParams";
 
 @Controller("/wallets")
 @Docs("api-docs")
@@ -39,13 +40,9 @@ export class WalletController {
   @Description("This endpoint returns a wallet based on the provided ID.")
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async getWalletById(
-    @PathParams("id") id: string,
-  ): Promise<WalletModel | null> {
-    return this.walletService.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    @UseWalletParams("id") wallet: WalletModel,
+  ): Promise<WalletModel> {
+    return wallet;
   }
 
   @Post("/")

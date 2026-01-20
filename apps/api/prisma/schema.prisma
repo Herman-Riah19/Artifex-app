@@ -24,6 +24,7 @@ model Organization {
   /// @TsED.Description("URL or key of the organization logo")
   logo          String?
   description   String?
+  type          String
 
   members       Member[]
   contracts     Contract[]

@@ -15,6 +15,7 @@ import { Docs } from "@tsed/swagger";
 import { ContractModel, ContractsRepository } from "prisma/generated";
 import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
 import { ContractDto } from "src/validators/ContractDto";
+import { UseContractParams } from "src/decorators/useContractParams";
 
 @Controller("/contracts")
 @Docs("api-docs")
@@ -40,13 +41,9 @@ export class ContractController {
   @Description("Returns a single contract based on the provided ID.")
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async getPostById(
-    @PathParams("id") id: string,
+    @UseContractParams("id") contrat: ContractModel,
   ): Promise<ContractModel | null> {
-    return this.contractService.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    return contract;
   }
 
   @Post("/")

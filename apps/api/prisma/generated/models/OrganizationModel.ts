@@ -26,6 +26,10 @@ export class OrganizationModel implements Organization {
   @Allow(null)
   description: string | null;
 
+  @Property(String)
+  @Required()
+  type: string;
+
   @CollectionOf(() => MemberModel)
   @Required()
   members: MemberModel[];

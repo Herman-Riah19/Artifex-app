@@ -16,6 +16,7 @@ import { Docs } from "@tsed/swagger";
 import { OrganizationModel, OrganizationsRepository } from "prisma/generated";
 import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
 import { OrganizationModelDto } from "src/validators/OrganizationDto";
+import { UseOrganizationParams } from "src/decorators/useOrganizationParams";
 
 @Controller("/organizations")
 @Docs("api-docs")
@@ -46,13 +47,9 @@ export class OrganizationController {
   @Description("This endpoint returns the organization with the specified ID.")
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async getOrganizationById(
-    @PathParams("id") id: string,
-  ): Promise<OrganizationModel | null> {
-    return this.organizationService.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    @UseOrganizationParams("id") organization: OrganizationModel,
+  ): Promise<OrganizationModel> {
+    return organization;
   }
 
   @Post("/")
@@ -72,6 +69,7 @@ export class OrganizationController {
         logo: data.logo,
         description: data.description,
         slug: data.slug,
+        type: data.type,
       },
     });
   }

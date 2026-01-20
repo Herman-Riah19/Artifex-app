@@ -26,27 +26,15 @@ export const OrganizationSchema = z.object({
 
   type: OrganizationTypeEnum,
 
-  website: z
+  logo: z
     .string()
-    .url("URL invalide")
-    .optional()
-    .or(z.literal("")),
-
-  email: z
-    .string()
-    .email("Email invalide")
-    .optional()
-    .or(z.literal("")),
-
-  phone: z
-    .string()
-    .max(20, "Le numéro de téléphone ne doit pas dépasser 20 caractères")
+    .url("Le logo doit être une URL valide")
+    .nullable()
     .optional(),
-
-  address: z
+  slug: z
     .string()
-    .max(500, "L'adresse ne doit pas dépasser 500 caractères")
-    .optional(),
+    .min(1, "Le slug est requis")
+    .max(10, "Le slug ne doit pas dépasser 100 caractères"),
 });
 
 /**

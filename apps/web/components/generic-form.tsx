@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@repo/ui/components/ui/form";
-import { Textarea } from "@repo/ui/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -21,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui/components/ui/select";
-import { FormTextfield } from "@repo/ui/components/composable/FormTextfield";
+import { FormTextfield, FormTextSelect } from "@repo/ui/components/composable/FormTextfield";
 
 export type FormFieldConfig = {
   name: string;
@@ -64,61 +63,27 @@ export function GenericForm({
     switch (fieldType) {
       case "textarea":
         return (
-          <FormField
+          <FormTextfield
             key={field.name}
-            control={form.control}
+            form={form}
             name={field.name}
-            render={({ field: formField }) => (
-              <FormItem>
-                <FormLabel>{field.label}</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder={field.placeholder}
-                    className={field.className}
-                    {...formField}
-                  />
-                </FormControl>
-                {field.description && (
-                  <FormDescription>{field.description}</FormDescription>
-                )}
-                <FormMessage />
-              </FormItem>
-            )}
+            label={field.label}
+            placeholder={field.placeholder}
+            type={fieldType}
+            description={field.description}
+            className={field.className}
           />
         );
 
       case "select":
         return (
-          <FormField
+          <FormTextSelect
             key={field.name}
-            control={form.control}
+            form={form}
             name={field.name}
-            render={({ field: formField }) => (
-              <FormItem>
-                <FormLabel>{field.label}</FormLabel>
-                <Select
-                  onValueChange={formField.onChange}
-                  value={formField.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className={field.className}>
-                      <SelectValue placeholder={field.placeholder} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {field.options?.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {field.description && (
-                  <FormDescription>{field.description}</FormDescription>
-                )}
-                <FormMessage />
-              </FormItem>
-            )}
+            label={field.label}
+            placeholder={field.placeholder}
+            options={field.options || []}
           />
         );
 

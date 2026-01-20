@@ -19,6 +19,7 @@ import {
 } from "prisma/generated";
 import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
 import { ContractTemplateDto } from "src/validators/ContractTemplateDto";
+import { UseContractTemplateParams } from "src/decorators/useContractTemplateParams";
 
 @Controller("/contract-templates")
 @Docs("api-docs")
@@ -50,13 +51,9 @@ export class ContractTemplateController {
   )
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async getContractTemplateById(
-    @PathParams("id") id: string,
-  ): Promise<ContractTemplateModel | null> {
-    return this.contractTemplateService.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    @UseContractTemplateParams("id") contractTemplate: ContractTemplateModel,
+  ): Promise<ContractTemplateModel> {
+    return contractTemplate;
   }
 
   @Post("/")

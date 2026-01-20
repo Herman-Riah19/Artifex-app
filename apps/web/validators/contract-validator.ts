@@ -91,3 +91,5 @@ export const SmartContractSchema = z.object({
     .min(1, "Organization ID is required")
     .uuid("Organization ID must be a valid UUID"),
 });
+
+export type ContractFormData = z.infer<typeof SmartContractSchema>;

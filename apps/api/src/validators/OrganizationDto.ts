@@ -19,5 +19,10 @@ export class OrganizationModelDto {
   @Required()
   @Description("The slug oforganization is Required")
   slug!: string;
+  
+  @Property(String)
+  @Required()
+  @Description("The slug oforganization is Required")
+  type!: string;
 }
 

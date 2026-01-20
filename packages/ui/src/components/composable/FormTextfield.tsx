@@ -6,14 +6,14 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 
@@ -53,7 +53,7 @@ export function FormTextfield({
                 placeholder={placeholder}
                 {...field}
                 value={field.value ?? ""}
-                onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
               />
             ) : type === "textarea" ? (
               <Textarea
@@ -83,11 +83,10 @@ interface FormTextSelectProps {
   form: UseFormReturn<any>;
   name: string;
   label: string;
-  options: {
-    value: string;
-    text: string;
-  }[];
+  options?: Array<{ value: string; label: string }>;
+  description?: string;
   placeholder?: string;
+  className?: string;
 }
 
 export function FormTextSelect({
@@ -95,29 +94,35 @@ export function FormTextSelect({
   name,
   label,
   options,
+  description,
   placeholder,
+  className,
 }: FormTextSelectProps) {
   return (
     <FormField
+      key={name}
       control={form.control}
       name={name}
-      render={({ field }) => (
-        <FormItem className="border-2 border-primary/20 rounded-sm ">
+      render={({ field: formField }) => (
+        <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={formField.onChange} value={formField.value}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className={className}>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {options.map((item, idx) => (
-                <SelectItem key={idx} value={item.value}>
-                  {item.text}
+              {options?.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
+          {description && (
+            <FormDescription>{description}</FormDescription>
+          )}
           <FormMessage />
         </FormItem>
       )}

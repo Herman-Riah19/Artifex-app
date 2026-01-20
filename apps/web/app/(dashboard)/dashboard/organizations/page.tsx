@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import * as z from "zod";
 import { OrganizationServices } from "@/services/organizationServices";
 import {
   OrganizationSchema,
@@ -35,15 +34,15 @@ function OrganizationForm({ onSubmit, loading }: OrganizationFormProps) {
       placeholder: "Ma Startup",
     },
     {
-      name: "description",
-      label: "Description",
-      type: "textarea" as const,
-      placeholder: "Description de l'organisation...",
+      name: "slug",
+      label: "Slug",
+      placeholder: "slug-de-l-organisation",
     },
     {
       name: "type",
       label: "Type d'organisation",
       type: "select" as const,
+      placeholder: "Sélectionnez le type d'organisation",
       options: [
         { value: "startup", label: "Startup" },
         { value: "enterprise", label: "Entreprise" },
@@ -52,26 +51,15 @@ function OrganizationForm({ onSubmit, loading }: OrganizationFormProps) {
       ],
     },
     {
-      name: "website",
-      label: "Site web",
-      placeholder: "https://example.com",
+      name: "logo",
+      label: "Logo",
+      placeholder: "URL du logo de l'organisation...",
     },
     {
-      name: "email",
-      label: "Email",
-      type: "email" as const,
-      placeholder: "contact@example.com",
-    },
-    {
-      name: "phone",
-      label: "Téléphone",
-      placeholder: "+33 1 23 45 67 89",
-    },
-    {
-      name: "address",
-      label: "Adresse",
+      name: "description",
+      label: "Description",
       type: "textarea" as const,
-      placeholder: "123 rue de la République, 75001 Paris",
+      placeholder: "Description de l'organisation...",
     },
   ];
 

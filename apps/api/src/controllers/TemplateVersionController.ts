@@ -19,6 +19,7 @@ import {
 } from "prisma/generated";
 import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
 import { TemplateVersionDto } from "src/validators/TemplateVersionDto";
+import { UseTemplateVersionParams } from "src/decorators/useTemplateVersionParams";
 
 @Controller("/templates")
 @Docs("api-docs")
@@ -50,13 +51,9 @@ export class TemplateVersionController {
   )
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async getTemplateById(
-    @PathParams("id") id: string,
-  ): Promise<TemplateVersionModel | null> {
-    return this.templateVersionService.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    @UseTemplateVersionParams("id") templateVersion: TemplateVersionModel,
+  ): Promise<TemplateVersionModel> {
+    return templateVersion;
   }
 
   @Post("/")
@@ -188,13 +185,9 @@ export class TemplateVersionController {
     "This endpoint returns a specific template version based on the provided ID.",
   )
   async getTemplateVersionById(
-    @PathParams("id") id: string,
-  ): Promise<TemplateVersionModel | null> {
-    return this.templateVersionService.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    @UseTemplateVersionParams("id") templateVersion: TemplateVersionModel,
+  ): Promise<TemplateVersionModel> {
+    return templateVersion;
   }
 
   @Put("/versions/:id")
