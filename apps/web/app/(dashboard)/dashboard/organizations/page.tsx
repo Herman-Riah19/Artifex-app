@@ -3,16 +3,13 @@
 import { useEffect, useState } from "react";
 import { OrganizationServices } from "@/services/organizationServices";
 import {
-  OrganizationSchema,
   OrganizationFormData,
-  MemberSchema,
   MemberFormData,
 } from "@/validators/organization-validator";
 import { PageHeader } from "@/components/page-header";
 import { FormDialog } from "@/components/dialog/form-dialog";
 import { EntityList } from "@/components/entity/entity-list";
 import { EntityCard } from "@/components/card/entity-card";
-import { GenericForm } from "@/components/generic-form";
 import { Eye, Edit, Trash2, UserPlus } from "lucide-react";
 import {
   Avatar,
@@ -20,102 +17,8 @@ import {
   AvatarImage,
 } from "@repo/ui/components/ui/avatar";
 import { useAuthStore } from "@/store/auth-store";
-
-interface OrganizationFormProps {
-  onSubmit: (data: OrganizationFormData) => void;
-  loading?: boolean;
-}
-
-function OrganizationForm({ onSubmit, loading }: OrganizationFormProps) {
-  const formFields = [
-    {
-      name: "name",
-      label: "Nom de l'organisation",
-      placeholder: "Ma Startup",
-    },
-    {
-      name: "slug",
-      label: "Slug",
-      placeholder: "slug-de-l-organisation",
-    },
-    {
-      name: "type",
-      label: "Type d'organisation",
-      type: "select" as const,
-      placeholder: "Sélectionnez le type d'organisation",
-      options: [
-        { value: "startup", label: "Startup" },
-        { value: "enterprise", label: "Entreprise" },
-        { value: "nonprofit", label: "Organisme à but non lucratif" },
-        { value: "government", label: "Gouvernement" },
-      ],
-    },
-    {
-      name: "logo",
-      label: "Logo",
-      placeholder: "URL du logo de l'organisation...",
-    },
-    {
-      name: "description",
-      label: "Description",
-      type: "textarea" as const,
-      placeholder: "Description de l'organisation...",
-    },
-  ];
-
-  return (
-    <GenericForm
-      schema={OrganizationSchema}
-      fields={formFields}
-      onSubmit={onSubmit}
-      submitLabel={loading ? "Création..." : "Créer l'organisation"}
-      loading={loading}
-      defaultValues={{
-        type: "startup",
-      }}
-    />
-  );
-}
-
-interface MemberFormProps {
-  onSubmit: (data: MemberFormData) => void;
-  loading?: boolean;
-}
-
-function MemberForm({ onSubmit, loading }: MemberFormProps) {
-  const formFields = [
-    {
-      name: "userId",
-      label: "ID de l'utilisateur",
-      placeholder: "user_123",
-      description: "Entrez l'ID de l'utilisateur à ajouter",
-    },
-    {
-      name: "role",
-      label: "Rôle",
-      type: "select" as const,
-      options: [
-        { value: "owner", label: "Propriétaire" },
-        { value: "admin", label: "Administrateur" },
-        { value: "member", label: "Membre" },
-        { value: "viewer", label: "Lecteur" },
-      ],
-    },
-  ];
-
-  return (
-    <GenericForm
-      schema={MemberSchema}
-      fields={formFields}
-      onSubmit={onSubmit}
-      submitLabel={loading ? "Ajout..." : "Ajouter le membre"}
-      loading={loading}
-      defaultValues={{
-        role: "member",
-      }}
-    />
-  );
-}
+import { OrganizationForm } from "./components/OrganizationForm";
+import { MemberForm } from "./components/MemberForm";
 
 export default function OrganizationsPage() {
   const [organizations, setOrganizations] = useState<any[]>([]);
@@ -216,7 +119,7 @@ export default function OrganizationsPage() {
     if (org.email) metadata.push({ label: "Email", value: org.email });
     metadata.push({
       label: "Membres",
-      value: (org.memberCount || 0).toString(),
+      value: (org.members.length || 0).toString(),
     });
 
     return (
@@ -256,19 +159,9 @@ export default function OrganizationsPage() {
         {/* Members preview */}
         {org.members && org.members.length > 0 && (
           <div className="mt-3 flex items-center gap-2">
-            <div className="flex -space-x-2">
-              {org.members.slice(0, 3).map((member: any, index: number) => (
-                <Avatar key={index} className="h-6 w-6 border-2 border-white">
-                  <AvatarImage src={member.avatar} />
-                  <AvatarFallback className="text-xs">
-                    {member.name?.charAt(0) || "U"}
-                  </AvatarFallback>
-                </Avatar>
-              ))}
-            </div>
-            {org.members.length > 3 && (
+            {org.members && (
               <span className="text-xs text-gray-500">
-                +{org.members.length - 3} autres
+                +{org.members.length} autres
               </span>
             )}
           </div>

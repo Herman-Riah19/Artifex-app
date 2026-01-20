@@ -1,3 +1,4 @@
+import { Role } from "prisma/generated";
 import { Property, Required, Description, Allow } from "@tsed/schema";
 
 export class OrganizationModelDto {
@@ -26,3 +27,14 @@ export class OrganizationModelDto {
   type!: string;
 }
 
+export class MemberModelDto {
+  @Property(String)
+  @Required()
+  @Description("The user ID is Required")
+  userId!: string;
+
+  @Property(String)
+  @Required()
+  @Description("The role of the member is Required")
+  role!: Role;
+}

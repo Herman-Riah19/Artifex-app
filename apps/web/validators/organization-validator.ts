@@ -43,10 +43,9 @@ export const OrganizationSchema = z.object({
 export const MemberSchema = z.object({
   userId: z
     .string()
-    .min(1, "L'utilisateur est requis")
-    .uuid("L'ID utilisateur doit être un UUID valide"),
+    .min(1, "L'utilisateur est requis"),
 
-  role: z.enum(["owner", "admin", "member", "viewer"]),
+  role: z.enum(["SIGNER", "ADMIN", "CLIENT", "VIEWER", "EDITOR"]),
 });
 
 export type OrganizationFormData = z.infer<typeof OrganizationSchema>;

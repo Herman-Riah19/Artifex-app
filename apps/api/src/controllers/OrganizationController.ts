@@ -13,15 +13,17 @@ import {
   Description,
 } from "@tsed/schema";
 import { Docs } from "@tsed/swagger";
-import { OrganizationModel, OrganizationsRepository } from "prisma/generated";
+import { MemberModel, OrganizationModel } from "prisma/generated";
 import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
-import { OrganizationModelDto } from "src/validators/OrganizationDto";
+import { MemberModelDto, OrganizationModelDto } from "src/validators/OrganizationDto";
 import { UseOrganizationParams } from "src/decorators/useOrganizationParams";
+import { OrganizationService } from "src/services/OrganizationService";
+import { Param } from "@prisma/client/runtime/library";
 
 @Controller("/organizations")
 @Docs("api-docs")
 export class OrganizationController {
-  constructor(@Inject() private organizationService: OrganizationsRepository) {}
+  constructor(@Inject() private organizationService: OrganizationService) {}
 
   @Get("/")
   @Returns(200, OrganizationModel)
@@ -36,6 +38,7 @@ export class OrganizationController {
         wallets: true,
         templates: true,
         auditLogs: true,
+        members: true,
       },
     });
   }
@@ -72,6 +75,25 @@ export class OrganizationController {
         type: data.type,
       },
     });
+  }
+  
+  @Post("/:id/members")
+  @Returns(201, OrganizationModel)
+  @Title("Create New Organization")
+  @Summary("Create a new organization")
+  @Description(
+    "This endpoint creates a new organization with the provided data.",
+  )
+  @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
+  async addNewMemberInOrganization(
+    @PathParams("id") id: string,
+    @BodyParams() data: MemberModelDto,
+  ): Promise<MemberModel> {
+    return await this.organizationService.addingMember(
+      id,
+      data.userId,
+      data.role
+    );
   }
 
   @Put("/:id")
