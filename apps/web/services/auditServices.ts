@@ -64,13 +64,26 @@ export class AuditServices {
   }
 
   static async createAuditLog(auditData: any, token: string) {
+    console.log("Creating audit log with data:", auditData);
     const header = headersAuthFetch(token);
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/audit-logs`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/audit-logs/`,
       {
         method: "POST",
         headers: header.headers,
         body: JSON.stringify(auditData),
+      },
+    );
+    return res.json();
+  }
+
+  static async deleteAuditLog(id: string, token: string) {
+    const header = headersAuthFetch(token);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/audit-logs/${id}`,
+      {
+        method: "DELETE",
+        headers: header.headers,
       },
     );
     return res.json();

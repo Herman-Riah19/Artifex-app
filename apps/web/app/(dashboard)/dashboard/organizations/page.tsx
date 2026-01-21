@@ -42,7 +42,7 @@ export default function OrganizationsPage() {
         token as string,
       );
 
-      if (result.success) {
+      if (result) {
         setOrganizations([...organizations, result.data]);
         setDialogOpen(false);
       }

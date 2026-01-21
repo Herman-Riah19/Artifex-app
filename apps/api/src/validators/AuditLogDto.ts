@@ -28,8 +28,8 @@ export class AuditLogDto {
   @Description("Type of action performed")
   action!: AuditAction;
 
-  @Property(Object)
+  @Property(String)
   @Allow(null)
   @Description("Additional details about the action (JSON)")
-  details!: any | null;
+  details!: string | null;
 }

@@ -29,9 +29,9 @@ export class AuditLogModel implements AuditLog {
   @Enum(AuditAction)
   action: AuditAction;
 
-  @Property(Object)
+  @Property(String)
   @Allow(null)
-  details: any | null;
+  details: string | null;
 
   @Property(() => ContractModel)
   @Required()

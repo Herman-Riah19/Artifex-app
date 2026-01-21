@@ -35,7 +35,7 @@ export const AuditLogSchema = z.object({
   action: AuditActionEnum,
 
   details: z
-    .any()
+    .string()
     .optional(),
 });
 

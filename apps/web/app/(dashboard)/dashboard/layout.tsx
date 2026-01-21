@@ -25,7 +25,7 @@ const navigation = [
   { name: "Wallets", href: "/dashboard/wallets", icon: Wallet },
   { name: "Organisations", href: "/dashboard/organizations", icon: Building2 },
   { name: "Transactions", href: "/dashboard/transactions", icon: LinkIcon },
-  { name: "Templates", href: "/dashboard/templates", icon: File },
+  { name: "Templates", href: "/dashboard/templates-view", icon: File },
   { name: "Audit Logs", href: "/dashboard/audit", icon: History },
   { name: "Configuration", href: "/dashboard/config", icon: Settings },
   { name: "Fichiers", href: "/dashboard/files", icon: FileText },

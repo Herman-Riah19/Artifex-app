@@ -2,7 +2,6 @@ import { headersAuthFetch } from "@/utils/header-fetch";
 
 export class ContractServices {
   static async getAllContracts(token: string) {
-    console.log("Fetching contracts with token: ", token);
     const header = headersAuthFetch(token);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/contracts`,

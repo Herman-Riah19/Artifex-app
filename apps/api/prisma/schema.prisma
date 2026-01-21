@@ -362,7 +362,7 @@ model AuditLog {
   organizationId  String
 
   action          AuditAction
-  details         Json?
+  details         String?
 
   contract        Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)

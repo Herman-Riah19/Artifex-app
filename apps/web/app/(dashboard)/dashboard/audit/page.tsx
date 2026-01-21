@@ -34,7 +34,7 @@ export default function AuditPage() {
     setLoading(true);
     try {
       const result = await AuditServices.createAuditLog(data, token as string);
-      if (result.success) {
+      if (result) {
         setAuditLogs([result.data, ...auditLogs]);
         setDialogOpen(false);
       }
@@ -50,9 +50,11 @@ export default function AuditPage() {
     console.log("View audit log:", auditLog);
   };
 
-  const handleDeleteAuditLog = (auditLog: any) => {
-    // TODO: Implement delete functionality
-    console.log("Delete audit log:", auditLog);
+  const handleDeleteAuditLog = async (auditLog: any) => {
+    const result = await AuditServices.deleteAuditLog(auditLog.id, token as string);
+    if (result.success) {
+      setAuditLogs(auditLogs.filter((log) => log.id !== auditLog.id));
+    }
   };
 
   const renderAuditLogCard = (auditLog: any, index: number) => (
@@ -100,16 +102,16 @@ export default function AuditPage() {
       icon: Activity,
       trend: { value: 12, label: "from last month", positive: true },
     },
-    {
-      title: "Today's Logs",
-      value: auditLogs.filter((log) => {
-        const today = new Date().toDateString();
-        return new Date(log.createdAt).toDateString() === today;
-      }).length,
-      description: "Logs today",
-      icon: Calendar,
-      trend: { value: 3, label: "from yesterday", positive: true },
-    },
+    // {
+    //   title: "Today's Logs",
+    //   value: auditLogs.filter((log) => {
+    //     const today = new Date().toDateString();
+    //     return new Date(log.createdAt).toDateString() === today;
+    //   }).length,
+    //   description: "Logs today",
+    //   icon: Calendar,
+    //   trend: { value: 3, label: "from yesterday", positive: true },
+    // },
     {
       title: "Critical Actions",
       value: auditLogs.filter((log) =>
