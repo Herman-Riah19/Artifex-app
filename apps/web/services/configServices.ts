@@ -3,14 +3,14 @@ import { headersAuthFetch } from "@/utils/header-fetch";
 export class ConfigServices {
   static async getAllConfigs(token: string) {
     const header = headersAuthFetch(token);
-    const res = await fetch(`${process.env.API_URL}/api/system-config`, header);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-config`, header);
     return res.json();
   }
 
   static async getConfigByKey(key: string, token: string) {
     const header = headersAuthFetch(token);
     const res = await fetch(
-      `${process.env.API_URL}/api/system-config/${key}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/system-config/${key}`,
       header,
     );
     return res.json();
@@ -18,7 +18,7 @@ export class ConfigServices {
 
   static async updateConfig(key: string, configData: any, token: string) {
     const header = headersAuthFetch(token);
-    const res = await fetch(`${process.env.API_URL}/api/system-config/${key}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-config/${key}`, {
       method: "PUT",
       headers: header.headers,
       body: JSON.stringify(configData),
@@ -28,7 +28,7 @@ export class ConfigServices {
 
   static async createConfig(configData: any, token: string) {
     const header = headersAuthFetch(token);
-    const res = await fetch(`${process.env.API_URL}/api/system-config`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-config`, {
       method: "POST",
       headers: header.headers,
       body: JSON.stringify(configData),
@@ -38,7 +38,7 @@ export class ConfigServices {
 
   static async deleteConfig(key: string, token: string) {
     const header = headersAuthFetch(token);
-    const res = await fetch(`${process.env.API_URL}/api/system-config/${key}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-config/${key}`, {
       method: "DELETE",
       headers: header.headers,
     });
@@ -48,7 +48,7 @@ export class ConfigServices {
   static async resetConfig(key: string, token: string) {
     const header = headersAuthFetch(token);
     const res = await fetch(
-      `${process.env.API_URL}/api/system-config/${key}/reset`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/system-config/${key}/reset`,
       {
         method: "POST",
         headers: header.headers,
@@ -60,7 +60,7 @@ export class ConfigServices {
   static async exportConfigs(token: string) {
     const header = headersAuthFetch(token);
     const res = await fetch(
-      `${process.env.API_URL}/api/system-config/export`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/system-config/export`,
       header,
     );
     return res.json();
@@ -68,7 +68,7 @@ export class ConfigServices {
 
   static async importConfigs(configsData: any, token: string) {
     const header = headersAuthFetch(token);
-    const res = await fetch(`${process.env.API_URL}/api/system-config/import`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-config/import`, {
       method: "POST",
       headers: header.headers,
       body: JSON.stringify(configsData),
@@ -79,7 +79,7 @@ export class ConfigServices {
   static async validateConfig(configData: any, token: string) {
     const header = headersAuthFetch(token);
     const res = await fetch(
-      `${process.env.API_URL}/api/system-config/validate`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/system-config/validate`,
       {
         method: "POST",
         headers: header.headers,

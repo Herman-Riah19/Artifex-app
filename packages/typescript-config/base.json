@@ -28,7 +28,6 @@
   "references": [
     { "path": "packages/ui" },
     { "path": "apps/api" },
-    { "path": "apps/contracts" },
     { "path": "apps/web" },
     { "path": "apps/docs" }
   ],

@@ -1,139 +1,64 @@
 ---
-title: "Welcome to Artifex.js"
-description: "Discover Artifex.js — the open-source library for creative AI manipulation and generative art."
+title: "Welcome to Artifex — Enterprise Smart Contract Platform"
+description: "Artifex is a SaaS platform providing a graphical interface to design, deploy, manage, and monitor smart contracts for enterprises."
 banner_url: "/assets/image.png"
-created_at: "2023-10-05"
+created_at: "2025-01-21"
 ---
 
-# 🎨 Welcome to **Artifex.js**
+# 🚀 Bienvenue sur **Artifex**
 
-**Artifex.js** is a new open-source library designed to bridge the gap between **art and artificial intelligence**.  
-Whether you're an artist, developer, or creative technologist, Artifex.js empowers you to manipulate, blend, and generate artistic visuals through simple, composable APIs.
-
----
-
-## ✨ What Is Artifex.js?
-
-Artifex.js is a **JavaScript toolkit** built for creative developers who want to harness the power of **AI models** for artistic expression.  
-It provides high-level abstractions for working with **diffusion models, image transformers, style transfer systems**, and **neural composition tools** — all wrapped in a simple and expressive syntax.
-
-You can think of it as:
-> **TensorFlow for art**, or **Three.js for imagination**.
-
-### Key Capabilities
-
-- 🧠 **AI Model Manipulation** — Load, configure, and combine neural models with minimal setup.  
-- 🧩 **Composable Pipelines** — Chain transformations like color synthesis, style merging, and depth mapping.  
-- 🎨 **Generative Art Tools** — Create unique art pieces using latent diffusion or procedural blending.  
-- ⚡ **Fast & Modular** — Built with WebGPU acceleration and ESM-first architecture.  
-- 🪄 **Plug-in System** — Extend with your own artistic operators, filters, and render engines.
+**Artifex** est une plateforme SaaS pensée pour les entreprises qui souhaitent concevoir, déployer, gouverner et exploiter des smart contracts sans perdre en sécurité ni en traçabilité. Notre objectif : rendre la blockchain accessible aux équipes produit, juridiques et opérationnelles, tout en conservant des garanties élevées en matière de conformité et de sécurité.
 
 ---
 
-## 🚀 Quick Start
+## ✨ Qu'est-ce qu'Artifex ?
 
-Get started with a single command:
-
-```bash
-npm install artifex
-````
-
-Then create your first artistic generation:
-
-```tsx
-import { Artifex, Blend, StyleTransfer } from "artifex";
-
-const ai = new Artifex();
-
-const image = await ai
-  .load("model://stable-diffusion")
-  .pipe(Blend.with("texture://neon"))
-  .pipe(StyleTransfer.from("artist://van-gogh"))
-  .render("output.png");
-
-console.log("✨ Artistic image generated:", image);
-```
-
-> 💡 **Tip:** Artifex supports both browser and Node.js environments, as well as integration with frameworks like **Next.js**, **React**, or **Three.js**.
+Artifex combine une interface visuelle, des flux de gouvernance robustes et des outils d'intégration afin de permettre aux équipes d'automatiser des processus métiers sur une infrastructure distribuée. La plateforme offre :
+- Un éditeur visuel et des templates réutilisables.
+- Un moteur de workflows d'approbation et contrôle d'accès.
+- Des pipelines de déploiement multi-chaînes et des outils de monitoring.
+- Des capacités d'audit et de versioning pour les exigences réglementaires.
 
 ---
 
-## 🧭 Why We Built This
+## 🔑 Avantages clés pour les entreprises
 
-The motivation behind Artifex.js is simple:
-
-> To make **AI-assisted creativity** more intuitive, reproducible, and open.
-
-Most AI art tools are black boxes — you provide a prompt, and you get an image back.
-With Artifex.js, you have full control over the creative pipeline:
-
-* Adjust latent spaces
-* Combine multiple styles
-* Reuse seeds and layers
-* Script complex generative flows
-
-By giving artists **programmable control** over AI models, Artifex.js transforms machine learning into a **collaborative creative partner** — not just a generator.
+- Réduction du time-to-market pour des contrats blockchain complexes.  
+- Meilleure séparation des responsabilités entre développeurs, compliance et opérations.  
+- Traçabilité complète des actions et des versions pour audits internes et externes.  
+- Intégration native avec les systèmes d'identité d'entreprise (SSO, SCIM) et les outils CI/CD.
 
 ---
 
-## 🧠 How It Works
+## 🛠️ Cas d'utilisation typiques
 
-Artifex.js is built on three conceptual layers:
-
-1. **Core Engine** – Handles model loading, GPU acceleration, and tensor management.
-2. **Operators** – Perform artistic transformations (e.g., Blend, Morph, Transfer).
-3. **Pipelines** – Combine multiple operators into reproducible workflows.
-
-This modular architecture makes it easy to experiment and extend.
-
-> 🧩 **Note:** Every operator in Artifex is functional and composable — meaning you can chain them like JavaScript array methods.
+- Gestion d'accords automatisés entre partenaires (supply chain, finance, assurance).  
+- Programmes de tokenisation d'actifs ou de droits d'accès.  
+- Automatisation des paiements et règlements inter-entreprises.  
+- Conformité et reporting réglementaire avec preuve immuable des opérations.
 
 ---
 
-## 📚 Documentation Roadmap
+## 🧭 Architecture & Principes
 
-This documentation will guide you through everything you need to know:
-
-1. **Getting Started** – Installation, setup, and your first generation
-2. **Core Concepts** – Understanding the Artifex architecture
-3. **Operators API** – Detailed reference for transformations
-4. **Pipeline Recipes** – Real-world creative examples
-5. **Extending Artifex** – Building custom operators and renderers
-6. **Best Practices** – Performance tips, ethics, and artistic intent
+- Interface visuelle (React) pour composer des modules contractuels et générer le code sous-jacent.  
+- Moteur de politiques pour évaluer les règles (règles KYC/AML, limites, approbations).  
+- Connecteurs blockchain (EVM, chaînes privées) et couche d'orchestration pour déploiements atomiques.  
+- Stockage immuable des métadonnées et des logs d'exécution pour auditabilité.
 
 ---
 
-## ⚖️ Ethics & Responsibility
+## 🚀 Démarrage rapide (détaillé)
 
-AI art can inspire, but it also raises questions about authorship and originality.
-At Artifex.js, we believe **tools should amplify human creativity, not replace it**.
-Our mission is to empower artists to **own their process**, **curate their models**, and **celebrate the human touch** in digital creation.
+1. Créez une organisation sur https://app.artifex.com et invitez vos collaborateurs.  
+2. Configurez les rôles et les politiques de gouvernance (validateur, réviseur, deployer).  
+3. Choisissez un template ou créez un module dans l'éditeur visuel.  
+4. Exécutez des tests locaux et simulez les approbations.  
+5. Déployez sur un réseau de staging, vérifiez les événements et logs, puis promouvez en production.  
 
-> ⚠️ **Reminder:** Always respect model licenses, dataset origins, and the rights of living artists.
-
----
-
-## 🧩 Join the Community
-
-Artifex.js is built in the open — and we want you to be part of it!
-
-* 💬 Join our [Discord Community](https://discord.gg/artifex)
-* 🐙 Contribute on [GitHub](https://github.com/artifex/artifex.js)
-* 📦 Explore plugins on [NPM](https://npmjs.com/package/artifex)
-* 🖼️ Share your creations on [X / Twitter](https://x.com/artifexjs)
-
-> ✨ Every pull request is a brushstroke in the evolution of generative art.
+Conseil : activez les scans automatiques de sécurité avant chaque promotion en production.
 
 ---
 
-## 🏁 Next Steps
+## 💻 SDK (Node.js) — Exemple d'utilisation
 
-👉 Continue to [Getting Started →](/docs/getting-started)
-
-Welcome to the future of **creative AI engineering** —
-where **code becomes canvas** and **algorithms become art**.
-Let’s build imagination together.
-
----
-
-*© 2025 Artifex.js — Crafted for artists, designed for developers.
