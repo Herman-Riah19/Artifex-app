@@ -23,6 +23,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "monorepo": ".",
     "tailwindcss": "^4.1.16"
   }
 }
