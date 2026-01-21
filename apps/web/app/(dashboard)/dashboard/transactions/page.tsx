@@ -2,17 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { BlockchainServices } from "@/services/blockchainServices";
-import {
-  TransactionSchema,
-  TransactionFormData,
-} from "@/validators/transaction-validator";
-import * as z from "zod";
+import { TransactionFormData } from "@/validators/transaction-validator";
 import { PageHeader } from "@/components/page-header";
 import { FormDialog } from "@/components/dialog/form-dialog";
 import { EntityList } from "@/components/entity/entity-list";
 import { EntityCard } from "@/components/card/entity-card";
 import { StatsCards } from "@/components/card/stats-cards";
-import { GenericForm } from "@/components/generic-form";
 import {
   Eye,
   RefreshCw,
@@ -23,68 +18,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth-store";
-
-interface TransactionFormProps {
-  onSubmit: (data: TransactionFormData) => void;
-  loading?: boolean;
-  gasPrice?: string;
-}
-
-function TransactionForm({
-  onSubmit,
-  loading,
-  gasPrice,
-}: TransactionFormProps) {
-  const formFields = [
-    {
-      name: "from",
-      label: "Adresse de locataire",
-      placeholder: "0x...",
-      description: "Adresse Ethereum ou compatible EVM",
-    },
-    {
-      name: "to",
-      label: "Adresse de destination",
-      placeholder: "0x...",
-      description: "Adresse Ethereum ou compatible EVM",
-    },
-    {
-      name: "value",
-      label: "Valeur",
-      placeholder: "1",
-      type: "number" as const,
-    },
-    {
-      name: "gasUsed",
-      label: "Gas Used",
-      placeholder: "21000",
-      type: "number" as const,
-    },
-    {
-      name: "gasCost",
-      label: "Gas Cost",
-      placeholder: "0.000000000000000001",
-      type: "number" as const,
-    },
-  ];
-
-  return (
-    <GenericForm
-      schema={TransactionSchema}
-      fields={formFields}
-      onSubmit={onSubmit}
-      submitLabel={loading ? "Envoi..." : "Envoyer la transaction"}
-      loading={loading}
-      defaultValues={{
-        from: "",
-        to: "",
-        value: 1,
-        gasUsed: 21000,
-        gasCost: gasPrice || "",
-      }}
-    />
-  );
-}
+import { TransactionForm } from "./components/transactionsForm";
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<any[]>([]);

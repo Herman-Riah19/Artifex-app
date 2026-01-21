@@ -18,7 +18,6 @@ import { UserAuthMiddleware } from "src/middlewares/userMiddleware";
 import { MemberModelDto, OrganizationModelDto } from "src/validators/OrganizationDto";
 import { UseOrganizationParams } from "src/decorators/useOrganizationParams";
 import { OrganizationService } from "src/services/OrganizationService";
-import { Param } from "@prisma/client/runtime/library";
 
 @Controller("/organizations")
 @Docs("api-docs")

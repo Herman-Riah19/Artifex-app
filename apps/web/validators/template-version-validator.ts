@@ -17,8 +17,7 @@ export const TemplateVersionSchema = z.object({
 
   templateId: z
     .string()
-    .min(1, "Template ID is required")
-    .uuid("Template ID must be a valid UUID"),
+    .min(1, "Template ID is required"),
 
   changelog: z
     .string()

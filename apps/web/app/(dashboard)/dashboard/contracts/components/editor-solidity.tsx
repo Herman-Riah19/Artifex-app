@@ -84,7 +84,6 @@ export function EditorSolidity({ code, setCode }: EditorSolidityProps) {
 
           {/* Editor Content */}
           <div className="flex bg-gray-50 dark:bg-gray-900 border rounded-b-lg overflow-hidden">
-            {/* Line Numbers */}
             <div className="w-12 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-right pr-2 py-4 text-sm font-mono select-none border-r">
               {lineNumbers.map((num, i) => (
                 <div key={i} className="leading-6">
@@ -95,12 +94,12 @@ export function EditorSolidity({ code, setCode }: EditorSolidityProps) {
 
             {/* Code Area */}
             <div className="flex-1 relative overflow-hidden">
-              {/* Highlighted code (background) */}
               <TextColorizedSyntax code={code} />
 
               <Textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
+                onKeyDown={onKeyDown}
                 spellCheck={false}
                 className="absolute inset-0 w-full h-full p-4 font-mono text-sm leading-6 bg-transparent border-none resize-none focus:ring-0 focus:outline-none text-transparent caret-white "
                 style={{

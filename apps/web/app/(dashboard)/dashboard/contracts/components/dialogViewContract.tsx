@@ -18,7 +18,6 @@ import {
 } from "@repo/ui/components/ui/dialog";
 import { Code } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import c from "refractor/c";
 
 interface DialogViewContractProps {
   contractId: string;

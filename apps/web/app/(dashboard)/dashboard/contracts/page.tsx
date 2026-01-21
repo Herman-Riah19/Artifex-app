@@ -16,7 +16,6 @@ import {
   TabsTrigger,
 } from "@repo/ui/components/ui/tabs";
 import { DialogViewContract } from "./components/dialogViewContract";
-import { set } from "zod";
 
 export default function ContractsPage() {
   const [contracts, setContracts] = useState<any[]>([]);

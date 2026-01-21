@@ -18,92 +18,13 @@ import {
 } from "@repo/ui/components/ui/tabs";
 import { ConfigServices } from "@/services/configServices";
 import { Download, RefreshCw, Settings, Database, Shield } from "lucide-react";
-import { FormFieldConfig, GenericForm } from "@/components/generic-form";
-import {
-  SystemConfigFormData,
-  SystemConfigSchema,
-} from "@/validators/system-config-validator";
+import { SystemConfigFormData } from "@/validators/system-config-validator";
 import { StatsCards } from "@/components/card/stats-cards";
 import { PageHeader } from "@/components/page-header";
 import { EntityList } from "@/components/entity/entity-list";
 import { FormDialog } from "@/components/dialog/form-dialog";
 import { useAuthStore } from "@/store/auth-store";
-
-interface ConfigFormProps {
-  onSubmit: (data: SystemConfigFormData) => void;
-  loading?: boolean;
-}
-
-function ConfigForm({ onSubmit, loading }: ConfigFormProps) {
-  const formFields = [
-    {
-      name: "key",
-      label: "Clé de configuration",
-      type: "text",
-      placeholder: "APP_NAME",
-      description: "Nom unique pour cette configuration",
-    },
-    {
-      name: "type",
-      label: "Type de valeur",
-      type: "select",
-      options: [
-        { value: "string", label: "Texte" },
-        { value: "number", label: "Nombre" },
-        { value: "boolean", label: "Booléen" },
-        { value: "json", label: "JSON" },
-      ],
-    },
-    {
-      name: "description",
-      label: "Description",
-      type: "textarea",
-      placeholder: "Description de la configuration...",
-    },
-    {
-      name: "category",
-      label: "Catégorie",
-      type: "select",
-      options: [
-        { value: "general", label: "Général" },
-        { value: "blockchain", label: "Blockchain" },
-        { value: "email", label: "Email" },
-        { value: "storage", label: "Stockage" },
-        { value: "api", label: "API" },
-        { value: "security", label: "Sécurité" },
-      ],
-      placeholder: "Sélectionnez une catégorie",
-      description: "Catégorie de la configuration",
-    },
-    {
-      name: "value",
-      label: "Valeur",
-      type: "text",
-      placeholder: "Valeur de la configuration",
-    },
-    {
-      name: "isSecret",
-      label: "Configuration secrète",
-      type: "boolean",
-    },
-  ] as FormFieldConfig[];
-
-  return (
-    <GenericForm
-      schema={SystemConfigSchema}
-      fields={formFields}
-      onSubmit={onSubmit}
-      submitLabel={loading ? "Création..." : "Créer la configuration"}
-      loading={loading}
-      defaultValues={{
-        key: "APP_NAME",
-        value: "APP_NAME",
-        isSecret: false,
-        description: "Description de la configuration...",
-      }}
-    />
-  );
-}
+import { ConfigForm } from "./components/configForm";
 
 export default function ConfigPage() {
   const [configs, setConfigs] = useState<any[]>([]);

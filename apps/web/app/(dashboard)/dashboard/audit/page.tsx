@@ -8,7 +8,7 @@ import { EntityList } from "@/components/entity/entity-list";
 import { EntityCard } from "@/components/card/entity-card";
 import { StatsCards } from "@/components/card/stats-cards";
 import { Eye, Activity, User, Calendar, AlertTriangle, Trash2 } from "lucide-react";
-import { AuditLogForm } from "./auditLogForm";
+import { AuditLogForm } from "./components/auditLogForm";
 import { AuditLogFormData } from "@/validators/audit-log-validator";
 import { useAuthStore } from "@/store/auth-store";
 
