@@ -15,12 +15,17 @@ import {
   TabsList,
   TabsTrigger,
 } from "@repo/ui/components/ui/tabs";
+import { DialogViewContract } from "./components/dialogViewContract";
+import { set } from "zod";
 
 export default function ContractsPage() {
   const [contracts, setContracts] = useState<any[]>([]);
+  const [selectedContract, setSelectedContract] = useState<any>(null);
+  const [isEditedContract, setIsEditedContract] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
-  const token = useAuthStore().token;
+  const token = useAuthStore.getState().token;
 
   useEffect(() => {
     const getContracts = async () => {
@@ -33,14 +38,31 @@ export default function ContractsPage() {
   const handleCreateContract = async (data: ContractFormData) => {
     setLoading(true);
     try {
-      console.log("form data: ", data.organizationId);
-      const result = await ContractServices.createContract(
-        data,
-        token as string,
-      );
+      if (isEditedContract) {
+        const result = await ContractServices.updateContract(
+          selectedContract.id,
+          data,
+          token as string,
+        );
+        if (result) {
+          setContracts(
+            contracts.map((contract) =>
+              contract.id === selectedContract.id
+                ? { ...contract, ...data }
+                : contract,
+            ),
+          );
+          setIsEditedContract(false);
+        }
+      } else {
+        const result = await ContractServices.createContract(
+          data,
+          token as string,
+        );
 
-      if (result) {
-        setContracts([...contracts, result.data]);
+        if (result) {
+          setContracts([...contracts, result.data]);
+        }
       }
     } catch (error) {
       console.error("Error creating contract:", error);
@@ -66,13 +88,14 @@ export default function ContractsPage() {
   };
 
   const handleViewContract = (contract: any) => {
-    // TODO: Implement view functionality
-    console.log("View contract:", contract);
+    setSelectedContract(contract);
+    setIsDialogOpen(true);
   };
 
   const handleEditContract = (contract: any) => {
-    // TODO: Implement edit functionality
-    console.log("Edit contract:", contract);
+    setSelectedContract(contract);
+    setActiveTab("created");
+    setIsEditedContract(true);
   };
 
   const handleDeleteContract = (contract: any) => {
@@ -156,7 +179,7 @@ export default function ContractsPage() {
         }}
       />
 
-      <Tabs defaultValue="all">
+      <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="all">Tous les contrats</TabsTrigger>
           <TabsTrigger value="created">Créés nouvelle contrat</TabsTrigger>
@@ -173,9 +196,22 @@ export default function ContractsPage() {
               onClick: () => setActiveTab("created"),
             }}
           />
+          {selectedContract && (
+            <DialogViewContract
+              contractId={selectedContract?.id as string}
+              isOpen={isDialogOpen}
+              onClose={() => setIsDialogOpen(false)}
+            />
+          )}
         </TabsContent>
         <TabsContent value="created">
-          <ContractForm onSubmit={handleCreateContract} loading={loading} />
+          {selectedContract && (
+            <ContractForm
+              onSubmit={handleCreateContract}
+              loading={loading}
+              initialData={selectedContract}
+            />
+          )}
         </TabsContent>
       </Tabs>
     </div>

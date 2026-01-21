@@ -1,94 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WalletServices } from "@/services/walletServices";
 import { PageHeader } from "@/components/page-header";
 import { FormDialog } from "@/components/dialog/form-dialog";
 import { EntityList } from "@/components/entity/entity-list";
 import { EntityCard } from "@/components/card/entity-card";
-import { GenericForm } from "@/components/generic-form";
 import { Eye, Edit, Trash2, Send, RefreshCw } from "lucide-react";
-import z from "zod";
-import { WalletSchema } from "@/validators/wallet-validator";
+import { WalletFormData } from "@/validators/wallet-validator";
 import { useAuthStore } from "@/store/auth-store";
-
-type WalletFormData = z.infer<typeof WalletSchema>;
-
-interface WalletFormProps {
-  onSubmit: (data: WalletFormData) => void;
-  loading?: boolean;
-}
-
-function WalletForm({ onSubmit, loading }: WalletFormProps) {
-  const formFields = [
-    {
-      name: "name",
-      label: "Nom du wallet",
-      placeholder: "Mon wallet principal",
-    },
-    {
-      name: "address",
-      label: "Adresse du wallet",
-      placeholder: "0x...",
-      description: "Adresse Ethereum ou compatible EVM",
-    },
-    {
-      name: "type",
-      label: "Type de wallet",
-      type: "select" as const,
-      options: [
-        { value: "personal", label: "Personnel" },
-        { value: "business", label: "Professionnel" },
-        { value: "contract", label: "Contrat" },
-      ],
-    },
-    {
-      name: "network",
-      label: "Réseau",
-      type: "select" as const,
-      options: [
-        { value: "ethereum", label: "Ethereum" },
-        { value: "polygon", label: "Polygon" },
-        { value: "bsc", label: "BSC" },
-        { value: "arbitrum", label: "Arbitrum" },
-      ],
-    },
-    {
-      name: "description",
-      label: "Description",
-      type: "textarea" as const,
-      placeholder: "Description du wallet...",
-    },
-  ];
-
-  return (
-    <GenericForm
-      schema={WalletSchema}
-      fields={formFields}
-      onSubmit={onSubmit}
-      submitLabel={loading ? "Création..." : "Créer le wallet"}
-      loading={loading}
-      defaultValues={{
-        type: "personal",
-        network: "ethereum",
-      }}
-    />
-  );
-}
+import { WalletForm } from "./components/WalletForm";
+import { ClientView } from "@/components/client-view";
 
 export default function WalletsPage() {
   const [wallets, setWallets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<any>(null);
-  const token = useAuthStore.getState().token;
+  const token = useAuthStore((state) => state.token);
+
+  useEffect(() => {
+    if (!token) return;
+
+    const getWallets = async () => {
+      try {
+        const data = await WalletServices.getAllWallets(token);
+        setWallets(data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    getWallets();
+  }, [token]);
 
   const handleCreateWallet = async (data: WalletFormData) => {
     setLoading(true);
     try {
       const result = await WalletServices.createWallet(data, token as string);
-
-      if (result.success) {
+      console.log("Created wallet:", result);
+      if (result) {
         setWallets([...wallets, result.data]);
         setDialogOpen(false);
       }
@@ -146,9 +97,9 @@ export default function WalletsPage() {
       string,
       "default" | "secondary" | "destructive" | "outline"
     > = {
-      personal: "default",
-      business: "secondary",
-      contract: "outline",
+      startup: "default",
+      entreprise: "secondary",
+      government: "outline",
     };
     return variants[type] || "outline";
   };
@@ -159,16 +110,17 @@ export default function WalletsPage() {
       title={wallet.name}
       description={wallet.description}
       status={{
-        label: wallet.type,
-        variant: getTypeVariant(wallet.type),
+        label: "Organization type: " + wallet.organization.type,
+        variant: getTypeVariant(wallet.organization.type),
       }}
       metadata={[
-        { label: "Network", value: wallet.network },
+        { label: "Organization", value: wallet.organization.name },
         {
           label: "Address",
           value: `${wallet.address.slice(0, 10)}...${wallet.address.slice(-8)}`,
         },
-        { label: "Balance", value: `${wallet.balance || "0.00"} ETH` },
+        { label: "Chain ID", value: `${wallet.chainId}` },
+        { label: "Label", value: `${wallet.label}` },
       ]}
       actions={[
         {
@@ -211,28 +163,29 @@ export default function WalletsPage() {
           onClick: () => setDialogOpen(true),
         }}
       />
+      <ClientView>
+        <EntityList
+          title="Liste des wallets"
+          description={`${wallets.length} wallet(s) trouvé(s)`}
+          items={wallets}
+          renderItem={renderWalletCard}
+          emptyMessage="Aucun wallet trouvé"
+          emptyAction={{
+            label: "Ajouter votre premier wallet",
+            onClick: () => setDialogOpen(true),
+          }}
+        />
 
-      <EntityList
-        title="Liste des wallets"
-        description={`${wallets.length} wallet(s) trouvé(s)`}
-        items={wallets}
-        renderItem={renderWalletCard}
-        emptyMessage="Aucun wallet trouvé"
-        emptyAction={{
-          label: "Ajouter votre premier wallet",
-          onClick: () => setDialogOpen(true),
-        }}
-      />
-
-      <FormDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        title="Créer un nouveau wallet"
-        description="Ajoutez un nouveau portefeuille à votre compte"
-        maxWidth="max-w-2xl overflow-y-auto"
-      >
-        <WalletForm onSubmit={handleCreateWallet} loading={loading} />
-      </FormDialog>
+        <FormDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          title="Créer un nouveau wallet"
+          description="Ajoutez un nouveau portefeuille à votre compte"
+          maxWidth="max-w-2xl overflow-y-auto"
+        >
+          <WalletForm onSubmit={handleCreateWallet} loading={loading} />
+        </FormDialog>
+      </ClientView>
     </div>
   );
 }

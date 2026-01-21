@@ -6,8 +6,7 @@ import z from "zod";
 export const WalletSchema = z.object({
   organizationId: z
     .string()
-    .min(1, "Organization ID is required")
-    .uuid("Organization ID must be a valid UUID"),
+    .min(1, "Organization ID is required"),
 
   address: z
     .string()

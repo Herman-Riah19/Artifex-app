@@ -9,7 +9,6 @@ import {
 } from "@/validators/contract-validator";
 import { OrganizationServices } from "@/services/organizationServices";
 import { useAuthStore } from "@/store/auth-store";
-import { Textarea } from "@repo/ui/components/ui/textarea";
 import { Button } from "@repo/ui/components/ui/button";
 import {
   Card,
@@ -17,14 +16,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/ui/components/ui/card";
-import { Badge } from "@repo/ui/components/ui/badge";
 import { Separator } from "@repo/ui/components/ui/separator";
-import { Code, Copy, Download, Play, Save, Settings } from "lucide-react";
+import { Play, Save, Settings } from "lucide-react";
 import {
   FormTextfield,
   FormTextSelect,
 } from "@repo/ui/components/composable/FormTextfield";
 import { Form } from "@repo/ui/components/ui/form";
+import { EditorSolidity } from "./editor-solidity";
 
 interface ContractFormProps {
   onSubmit: (data: ContractFormData) => void;
@@ -38,49 +37,7 @@ export function ContractForm({
   initialData,
 }: ContractFormProps) {
   const [organisations, setOrganisations] = useState<any[]>([]);
-  const [code, setCode] = useState(
-    initialData?.smartContractCode ||
-      `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-contract SmartContract {
-    // Contract state variables
-    address public owner;
-    uint256 public value;
-
-    // Events
-    event ValueChanged(uint256 newValue);
-
-    // Modifiers
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Not the owner");
-        _;
-    }
-
-    // Constructor
-    constructor() {
-        owner = msg.sender;
-    }
-
-    // Functions
-    function setValue(uint256 _value) public onlyOwner {
-        value = _value;
-        emit ValueChanged(_value);
-    }
-
-    function getValue() public view returns (uint256) {
-        return value;
-    }
-}`,
-  );
-
-  const [lineNumbers, setLineNumbers] = useState<string[]>([]);
-
-  useEffect(() => {
-    const lines = code.split("\n").length || 1;
-    const numbers = Array.from({ length: lines }, (_, i) => (i + 1).toString());
-    setLineNumbers(numbers);
-  }, [code]);
+  const [code, setCode] = useState(initialData?.smartContractCode || "");
 
   useEffect(() => {
     const getOrganisations = async () => {
@@ -111,24 +68,10 @@ contract SmartContract {
       smartContractAddress: initialData?.smartContractAddress || "",
       deploymentTxHash: initialData?.deploymentTxHash || "",
       gasEstimate: initialData?.gasEstimate || 0,
-      gasCost: initialData?.gasCost || "",
+      gasCost: initialData?.gasCost || 0,
       requiredSigners: initialData?.requiredSigners || 0,
     },
   });
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-  };
-
-  const handleDownload = () => {
-    const blob = new Blob([code], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "contract.sol";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   const handleSubmit = (data: ContractFormData) => {
     onSubmit({ ...data, smartContractCode: code });
@@ -296,74 +239,7 @@ contract SmartContract {
 
       {/* Main Content - Right Panel */}
       <div className="flex-1 space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Code className="h-4 w-4" />
-              Éditeur de Code Source
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="relative">
-              {/* Editor Header */}
-              <div className="flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-800 border-b rounded-t-lg">
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="text-xs">
-                    Solidity
-                  </Badge>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {lineNumbers.length} lines
-                  </span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleCopy}
-                    className="h-7 w-7 p-0"
-                  >
-                    <Copy className="h-3 w-3" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleDownload}
-                    className="h-7 w-7 p-0"
-                  >
-                    <Download className="h-3 w-3" />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Editor Content */}
-              <div className="flex bg-gray-50 dark:bg-gray-900 border rounded-b-lg overflow-hidden">
-                {/* Line Numbers */}
-                <div className="w-12 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-right pr-2 py-4 text-sm font-mono select-none border-r">
-                  {lineNumbers.map((num, i) => (
-                    <div key={i} className="leading-6">
-                      {num}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Code Area */}
-                <div className="flex-1 relative">
-                  <Textarea
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    placeholder="// pragma solidity ^0.8.0;\n\ncontract MyContract {\n    // Your code here\n}"
-                    className="w-full h-auto p-4 font-mono text-sm leading-6 bg-transparent border-none resize-none focus:ring-0 focus:outline-none text-gray-900 dark:text-gray-100"
-                    style={{
-                      tabSize: 4,
-                      fontFamily:
-                        'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <EditorSolidity code={code} setCode={setCode} />
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-3">

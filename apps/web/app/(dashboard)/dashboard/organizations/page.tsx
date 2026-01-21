@@ -11,11 +11,6 @@ import { FormDialog } from "@/components/dialog/form-dialog";
 import { EntityList } from "@/components/entity/entity-list";
 import { EntityCard } from "@/components/card/entity-card";
 import { Eye, Edit, Trash2, UserPlus } from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@repo/ui/components/ui/avatar";
 import { useAuthStore } from "@/store/auth-store";
 import { OrganizationForm } from "./components/OrganizationForm";
 import { MemberForm } from "./components/MemberForm";

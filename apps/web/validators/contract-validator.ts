@@ -75,7 +75,9 @@ export const SmartContractSchema = z.object({
     .optional(),
 
   gasCost: z
-    .string()
+    .number({
+      message: "Gas cost must be a number",
+    })
     .nullable()
     .optional(),
 
@@ -89,7 +91,6 @@ export const SmartContractSchema = z.object({
   organizationId: z
     .string()
     .min(1, "Organization ID is required")
-    .uuid("Organization ID must be a valid UUID"),
 });
 
 export type ContractFormData = z.infer<typeof SmartContractSchema>;

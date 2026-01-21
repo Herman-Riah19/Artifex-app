@@ -14,6 +14,7 @@
     "@repo/contracts": "*",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.1.16",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "clsx": "^2.1.1",
     "lucide-react": "^0.552.0",
     "next": "15.0.7",
@@ -22,6 +23,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.68.0",
+    "react-syntax-highlighter": "^16.1.0",
+    "refractor": "^5.0.0",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.1.13",
     "zustand": "^4.5.0"

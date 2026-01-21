@@ -41,7 +41,7 @@ export class ContractController {
   @Description("Returns a single contract based on the provided ID.")
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async getPostById(
-    @UseContractParams("id") contrat: ContractModel,
+    @UseContractParams("id") contract: ContractModel,
   ): Promise<ContractModel | null> {
     return contract;
   }
@@ -85,7 +85,7 @@ export class ContractController {
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   async updatePost(
     @PathParams("id") id: string,
-    @BodyParams() @Groups("update") contract: ContractModel,
+    @BodyParams() @Groups("update") contract: ContractDto,
   ): Promise<ContractModel> {
     return this.contractService.update({
       where: {
@@ -95,6 +95,18 @@ export class ContractController {
         title: contract.title,
         description: contract.description,
         status: contract.status,
+        content: contract.content,
+        version: contract.version,
+        chainId: contract.chainId,
+        smartContractAddress: contract.smartContractAddress,
+        smartContractCode: contract.smartContractCode,
+        deploymentTxHash: contract.deploymentTxHash,
+        gasEstimate: contract.gasEstimate,
+        gasCost: contract.gasCost,
+        requiredSigners: contract.requiredSigners,
+        organization: {
+          connect: { id: contract.organizationId },
+        },
       },
     });
   }

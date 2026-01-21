@@ -30,7 +30,11 @@ export class WalletController {
   @Description("This endpoint returns a list of all wallets.")
   @UseAuth(UserAuthMiddleware, { role: "VIEWER" })
   getAllWallets() {
-    return this.walletService.findMany();
+    return this.walletService.findMany({
+      include: {
+        organization: true,
+      },
+    });
   }
 
   @Get("/:id")
@@ -57,6 +61,7 @@ export class WalletController {
         address: data.address,
         chainId: data.chainId,
         organizationId: data.organizationId,
+        label: data.label,
       },
     });
   }
