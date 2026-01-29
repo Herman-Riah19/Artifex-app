@@ -204,13 +204,11 @@ export default function ContractsPage() {
           )}
         </TabsContent>
         <TabsContent value="created">
-          {selectedContract && (
-            <ContractForm
-              onSubmit={handleCreateContract}
-              loading={loading}
-              initialData={selectedContract}
-            />
-          )}
+          <ContractForm
+            onSubmit={handleCreateContract}
+            loading={loading}
+            initialData={selectedContract}
+          />
         </TabsContent>
       </Tabs>
     </div>

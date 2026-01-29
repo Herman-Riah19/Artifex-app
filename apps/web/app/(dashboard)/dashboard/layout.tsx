@@ -76,7 +76,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-primary transition-colors"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-foreground transition-colors"
                 >
                   <Icon className="mr-3 h-5 w-5" />
                   {item.name}

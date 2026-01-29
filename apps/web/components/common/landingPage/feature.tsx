@@ -1,156 +1,350 @@
-"use client"
+"use client";
 
-import { FeatureProps } from "@/components/card/card-features";
+import { useState } from "react";
+import {
+  ArrowRight,
+  Rocket,
+  Shield,
+  Users,
+  CheckCircle2,
+  Zap,
+  Globe,
+  Lock,
+  Code,
+  BarChart3,
+} from "lucide-react";
 import { Button } from "@repo/ui/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@repo/ui/components/ui/card";
-import { Progress } from "@repo/ui/components/ui/progress";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@repo/ui/components/ui/card";
+import { Badge } from "@repo/ui/components/ui/badge";
 import { Typography } from "@repo/ui/components/ui/typography";
-import { Link } from "lucide-react";
-import React, { useState, useEffect } from "react";
+
 const FeaturesData = [
-  { 
+  {
+    icon: <Rocket className="w-8 h-8" />,
     title: "Déploiement Simplifié",
-    description: "Déployez vos smart contracts en quelques clics avec notre interface intuitive.",
-    image: "/images/feature-deployment.jpg",
-    link: "/features/deployment",
-    details: "Notre fonctionnalité de déploiement simplifié vous permet de lancer vos smart contracts rapidement et facilement. Grâce à une interface utilisateur conviviale, vous pouvez configurer les paramètres essentiels, choisir le réseau blockchain approprié, et déployer vos contrats sans avoir besoin de compétences techniques approfondies. Gagnez du temps et réduisez les erreurs grâce à notre processus guidé."
+    description: "Déployez vos smart contracts en quelques clics",
+    details: "Interface intuitive pour un déploiement rapide",
+    stats: "50x plus rapide",
+    color: "from-blue-500 to-cyan-500",
+    size: "large",
   },
-  { 
+  {
+    icon: <Shield className="w-6 h-6" />,
     title: "Audit Intégré",
-    description: "Assurez la sécurité de vos smart contracts avec des audits automatisés et manuels.",
-    image: "/images/feature-audit.jpg",
-    link: "/features/audit",
-    details: "La sécurité est primordiale dans le monde des smart contracts. Notre fonctionnalité d'audit intégré combine des analyses automatisées  et des revues manuelles pour identifier les vulnérabilités potentielles dans vos contrats. Recevez des rapports détaillés et des recommandations pour renforcer la sécurité de vos déploiements, garantissant ainsi la confiance de vos utilisateurs et partenaires."
+    description: "Audits automatisés et manuels",
+    details: "Sécurité renforcée avec analyses complètes",
+    stats: "99.9% sécurisé",
+    color: "from-green-500 to-emerald-500",
+    size: "medium",
   },
   {
-    title: "Surveillance en Temps Réel",
-    description: "Surveillez les performances et les activités de vos smart contracts en temps réel.",
-    image: "/images/feature-monitoring.jpg",
-    link: "/features/monitoring",
-    details: "Restez informé de l'état de vos smart contracts grâce à notre système de surveillance en temps réel. Recevez des notifications instantanées sur les transactions, les erreurs et les performances de vos contrats. Notre tableau de bord intuitif vous permet d'analyser les données clés et de prendre des décisions éclairées pour optimiser vos opérations blockchain."
-  },
-  {
+    icon: <Users className="w-6 h-6" />,
     title: "Gouvernance Décentralisée",
-    description: "Implémentez des mécanismes de gouvernance pour une gestion collaborative de vos smart contracts.",
-    image: "/images/feature-governance.jpg",
-    link: "/features/governance",
-    details: "La gouvernance décentralisée est essentielle pour les projets blockchain collaboratifs. Notre fonctionnalité de gouvernance vous permet de définir des règles et des processus pour la prise de décision collective concernant vos smart contracts. Impliquez votre communauté dans les mises à jour, les modifications et les évolutions de vos contrats, renforçant ainsi la transparence et la confiance au sein de votre écosystème."
+    description: "Gestion collaborative des contrats",
+    details: "Mécanismes de vote multi-parties",
+    stats: "Multi-stakeholder",
+    color: "from-orange-500 to-red-500",
+    size: "medium",
+  },
+  {
+    icon: <Zap className="w-6 h-6" />,
+    title: "Optimisation Performance",
+    description: "Accélération des transactions",
+    details: "Algorithmes d'optimisation avancés",
+    stats: "10x plus rapide",
+    color: "from-yellow-500 to-orange-500",
+    size: "small",
+  },
+  {
+    icon: <Globe className="w-6 h-6" />,
+    title: "Multi-Réseaux",
+    description: "Déploiement sur 150+ blockchains",
+    details: "Support des principaux réseaux",
+    stats: "150+ réseaux",
+    color: "from-indigo-500 to-purple-500",
+    size: "small",
+  },
+  {
+    icon: <Lock className="w-6 h-6" />,
+    title: "Sécurité Entreprise",
+    description: "Protection niveau bancaire",
+    details: "Chiffrement et conformité réglementaire",
+    stats: "SOC 2 certifié",
+    color: "from-red-500 to-pink-500",
+    size: "small",
+  },
+  {
+    icon: <Code className="w-6 h-6" />,
+    title: "Outils Développeurs",
+    description: "SDK et API complètes",
+    details: "Documentation et exemples intégrés",
+    stats: "100+ APIs",
+    color: "from-cyan-500 to-blue-500",
+    size: "small",
+  },
+  {
+    icon: <BarChart3 className="w-6 h-6" />,
+    title: "Analytics Avancés",
+    description: "Tableaux de bord personnalisables",
+    details: "Métriques détaillées et rapports",
+    stats: "Real-time data",
+    color: "from-emerald-500 to-green-500",
+    size: "small",
   },
 ];
 
-function FeatureCard({
+function BentoCard({
   feature,
-  isActive,
+  index,
   onClick,
-  progressValue,
 }: {
-  feature: FeatureProps;
-  isActive: boolean;
+  feature: (typeof FeaturesData)[0];
+  index: number;
   onClick: () => void;
-  progressValue: number;
 }) {
+  const sizeClasses = {
+    small: "md:col-span-1 row-span-1",
+    medium: "md:col-span-2 row-span-1",
+    large: "md:col-span-2 row-span-2",
+  };
+
   return (
     <Card
       onClick={onClick}
-      className={`cursor-pointer transition-all ${
-        isActive ? "border-primary bg-primary/10" : "hover:border-primary/50"
+      className={`group cursor-pointer transition-all duration-300 shadow-none border-0 overflow-hidden ${
+        sizeClasses[feature.size as keyof typeof sizeClasses]
       }`}
     >
-      <CardHeader>
-        <CardTitle>{feature.title}</CardTitle>
-        <CardDescription>{feature.description}</CardDescription>
+      {/* Background gradient */}
+      <div
+        className={`absolute inset-0 bg-linear-to-br ${feature.color} opacity-10`}
+      />
+
+      {/* Grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[24px_24px]" />
+
+      <CardHeader className="relative z-10 pb-3">
+        <div className="flex items-start justify-between gap-3">
+          <div
+            className={`p-3 rounded-xl bg-linear-to-r ${feature.color} text-foreground shadow-lg`}
+          >
+            {feature.icon}
+          </div>
+          <Badge
+            variant="secondary"
+            className="bg-white/20 text-foreground border-white/30 backdrop-blur-sm text-xs"
+          >
+            {feature.stats}
+          </Badge>
+        </div>
       </CardHeader>
-      <CardContent>
-        <Progress value={progressValue} className="h-2" />
+
+      <CardContent className="relative z-10 pt-0">
+        <CardTitle className="text-xl text-foreground mb-2 group-hover:scale-105 transition-transform">
+          {feature.title}
+        </CardTitle>
+        <CardDescription className="text-foreground/80 text-sm leading-relaxed">
+          {feature.description}
+        </CardDescription>
+        <Typography
+          variant="span"
+          color="muted-foreground"
+          className="text-foreground/60 text-xs mt-2 block"
+        >
+          {feature.details}
+        </Typography>
       </CardContent>
     </Card>
   );
 }
 
 export function Feature() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [progressValue, setProgressValue] = useState(0);
-  const activeFeature = FeaturesData[activeIndex];
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (progressValue < 100) {
-      interval = setInterval(() => {
-        setProgressValue((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setActiveIndex((prevIndex) => (prevIndex + 1) % FeaturesData.length);
-            return 0; // Reset progress for the next feature
-          }
-          return prev + 10; // Increment progress
-        });
-      }, 100); // Adjust the interval time as needed
-    }
-
-    return () => clearInterval(interval);
-  }, [progressValue, activeIndex]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="border-2 rounded-md m-2 bg-muted min-h-screen">
-      <div className="w-full text-start p-7">
-        <Typography
-          variant="h1"
-          color="primary"
-          className="uppercase mb-2 bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text"
-        >
-          Smart Contract Management
-        </Typography>
-        <Link href="/auth/login">
-          <Button
-            variant="default"
-            className="text-lg font-normal uppercase rounded-[10vw]"
-          >
-            Get Started
-          </Button>
-        </Link>
-      </div>
+    <section className="py-24 bg-muted/30">
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--muted-foreground)_1px,transparent_1px)] bg-size-[24px_24px] opacity-5" />
 
-      <div className="grid grid-cols-2 gap-6 p-7 h-full">
-        {/* Left Column - Features List */}
-        <div className="flex flex-col gap-4">
-          <Typography variant="h2" className="mb-4" color={"primary"}>
-            Features
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <Badge className="bg-primary/10 text-primary border-primary/20 mb-6 backdrop-blur-sm">
+            Fonctionnalités Principales
+          </Badge>
+
+          <Typography
+            variant="h1"
+            color="primary"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"
+          >
+            Gestion de
+            <br />
+            <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Smart Contracts
+            </span>
           </Typography>
-          {FeaturesData.map((feat, index) => (
-            <FeatureCard
+
+          <Typography
+            variant="h6"
+            color="muted-foreground"
+            className="max-w-3xl mx-auto text-lg leading-relaxed"
+          >
+            Toutes les outils dont vous avez besoin pour déployer, auditer et
+            gouverner vos smart contracts en toute sécurité.
+          </Typography>
+        </div>
+
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16 ">
+          {FeaturesData.map((feature, index) => (
+            <div
               key={index}
-              feature={feat}
-              isActive={activeIndex === index}
-              onClick={() => setActiveIndex(index)}
-              progressValue={activeIndex === index ? progressValue : 0}
-            />
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="relative"
+            >
+              <BentoCard
+                feature={feature}
+                index={index}
+                onClick={() => console.log(`Clicked feature ${index}`)}
+              />
+
+              {/* Hover effect overlay */}
+              {hoveredIndex === index && (
+                <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-secondary/20 rounded-2xl pointer-events-none transition-opacity duration-300" />
+              )}
+            </div>
           ))}
         </div>
 
-        {activeFeature && (
-          <Card>
-            <CardHeader>
-              <img
-                src={activeFeature.image}
-                alt={activeFeature.title}
-                className="w-full h-48 object-cover rounded-lg mb-6"
-              />
-              <CardTitle>{activeFeature.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Typography variant="p" className="mb-6" color={"primary"}>
-                {activeFeature.details || activeFeature.description}
-              </Typography>
-              <Link href={activeFeature.link}>
-                <Button variant="default" className="w-full">
-                  Access Feature
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+        {/* Feature Details Modal/Panel */}
+        {hoveredIndex !== null && FeaturesData[hoveredIndex] && (
+          <div className="mb-16">
+            <Card className="bg-linear-to-r from-primary/5 to-secondary/5 border-primary/20">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-6 mb-6">
+                  <div
+                    className={`p-4 rounded-xl bg-linear-to-r ${FeaturesData[hoveredIndex].color} text-white shadow-lg`}
+                  >
+                    {FeaturesData[hoveredIndex].icon}
+                  </div>
+                  <div className="flex-1">
+                    <Typography
+                      variant="h2"
+                      color="foreground"
+                      className="text-2xl font-bold mb-2"
+                    >
+                      {FeaturesData[hoveredIndex].title}
+                    </Typography>
+                    <Badge className="bg-primary/10 text-primary border-primary/20">
+                      {FeaturesData[hoveredIndex].stats}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <Typography
+                      variant="h4"
+                      color="foreground"
+                      className="mb-4"
+                    >
+                      Description détaillée
+                    </Typography>
+                    <Typography
+                      variant="p"
+                      color="muted-foreground"
+                      className="leading-relaxed"
+                    >
+                      {FeaturesData[hoveredIndex].details}
+                    </Typography>
+                  </div>
+
+                  <div>
+                    <Typography
+                      variant="h4"
+                      color="foreground"
+                      className="mb-4"
+                    >
+                      Avantages clés
+                    </Typography>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-primary" />
+                        <Typography
+                          variant="span"
+                          color="foreground"
+                          className="text-sm"
+                        >
+                          Interface utilisateur intuitive
+                        </Typography>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-primary" />
+                        <Typography
+                          variant="span"
+                          color="foreground"
+                          className="text-sm"
+                        >
+                          Documentation complète
+                        </Typography>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-primary" />
+                        <Typography
+                          variant="span"
+                          color="foreground"
+                          className="text-sm"
+                        >
+                          Support 24/7
+                        </Typography>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-6 border-t">
+                  <Button className="rounded-full" size="lg">
+                    Explorer cette fonctionnalité
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
+
+        {/* Bottom CTA */}
+        <div className="text-center">
+          <Typography variant="h3" color="primary" className="mb-4">
+            Prêt à commencer ?
+          </Typography>
+          <Typography
+            variant="p"
+            color="muted-foreground"
+            className="mb-8 max-w-2xl mx-auto"
+          >
+            Découvrez toutes nos fonctionnalités et transformez votre gestion de
+            smart contracts dès aujourd'hui.
+          </Typography>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="rounded-full">
+              Commencer gratuitement
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+            <Button variant="outline" size="lg" className="rounded-full">
+              Voir la documentation
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

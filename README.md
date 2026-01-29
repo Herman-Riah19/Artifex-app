@@ -1,40 +1,50 @@
-# 🧠 Boiler Plate Riah
-
-A modern **Next.js** documentation boilerplate designed for creative AI libraries, technical toolkits, and developer documentation.  
-Built with **MDX**, **Tailwind CSS**, and **Shadcn UI**, this boilerplate makes it simple to create visually appealing, performant, and content-driven documentation sites.
+Parfait 👍
+Voici une **réécriture complète du fichier `README.md`**, cohérente avec la **réalité du projet Artifex** : **Bun monorepo**, **architecture microservices**, **Turborepo**, avec **apps (`api`, `web`, `docs`)** et **packages partagés**.
+Le ton est **professionnel, clair, et prêt pour GitHub**.
 
 ---
 
-## 🚀 Features
+# ⚡ Artifex Monorepo
 
-✅ **Next.js 14+ (App Router)** — fast, scalable, and SEO-friendly  
-✅ **MDX support** — write documentation with Markdown + React components  
-✅ **Shadcn/UI components** — elegant design system built on Radix UI  
-✅ **Tailwind CSS** — modern styling with dark mode support  
-✅ **File-based routing** — pages auto-generated from your `docs/` folder  
-✅ **Syntax highlighting** — with `rehype-prism`  
-✅ **Server Components compatible** — supports `next-mdx-remote/rsc`  
-✅ **Deployed-ready** — easily deploy on **Vercel** or **GitHub Pages**
+Artifex is a **modern Bun-based monorepo** built with a **microservices-oriented architecture** and orchestrated using **Turborepo**.
+It is designed to manage **multiple applications and shared packages** within a single repository, enabling **parallel development**, **code reuse**, and **high scalability**.
+
+The project includes a backend API, a web application, and a documentation site, all sharing common configurations and UI components.
+
+---
+
+## 🚀 Key Features
+
+✅ **Bun runtime & package manager** — fast installs and execution
+✅ **Monorepo architecture** — apps and shared packages in one repository
+✅ **Turborepo** — parallel development, builds, and caching
+✅ **Microservices-ready** — clean separation between services
+✅ **Shared UI system** — reusable components built with Shadcn UI
+✅ **Shared configurations** — centralized ESLint and TypeScript configs
+✅ **Scalable structure** — easy to add new apps or packages
+✅ **Developer-friendly** — consistent DX across all services
 
 ---
 
 ## 📁 Project Structure
 
 ```
-
-boiler-plate-riah/
+artifex/
 │
-├── app/                # Next.js App Router structure
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── docs/           # MDX documentation pages
+├── apps/
+│   ├── api/             # Backend microservices (Bun-based)
+│   ├── web/             # Main web application
+│   └── docs/            # Documentation application
 │
-├── components/         # Custom UI components (cards, navbars, MDX blocks)
-├── styles/             # Tailwind CSS configuration
-├── next.config.js      # Next.js configuration
+├── packages/
+│   ├── ui/              # Shared UI components (Shadcn UI)
+│   ├── eslint-config/   # Shared ESLint configuration
+│   └── ts-config/       # Shared TypeScript configuration
+│
+├── turbo.json           # Turborepo task orchestration
+├── bun.lockb
 ├── package.json
 └── README.md
-
 ```
 
 ---
@@ -44,9 +54,9 @@ boiler-plate-riah/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/Herman-Riah19/boiler-plate-riah.git
-cd boiler-plate-riah
-````
+git clone https://github.com/Herman-Riah19/artifex.git
+cd artifex
+```
 
 ### 2️⃣ Install dependencies
 
@@ -54,102 +64,92 @@ cd boiler-plate-riah
 bun install
 ```
 
-### 3️⃣ Run the development server
+### 3️⃣ Run development mode (parallel)
 
 ```bash
 bun dev
 ```
 
-Open your browser at 👉 **[http://localhost:3000](http://localhost:3000)**
+This command uses **Turborepo** to start all applications (`api`, `web`, `docs`) **in parallel**.
 
 ---
 
-## 🧩 Writing Documentation (MDX)
+## 🧩 Applications Overview
 
-All documentation pages are written in **MDX** and stored inside the `app/docs/` folder.
+### 🛠 `apps/api`
+
+* Backend microservices powered by **Bun**
+* Designed for REST or GraphQL APIs
+* Business logic and service orchestration layer
+
+### 🌐 `apps/web`
+
+* Main web application
+* Consumes the API services
+* Uses shared UI components from `packages/ui`
+
+### 📚 `apps/docs`
+
+* Documentation site for the platform
+* Technical guides, architecture notes, and usage instructions
+* Shares the same UI system for visual consistency
+
+---
+
+## 🧰 Shared Packages
+
+### 🎨 `packages/ui`
+
+* Shared UI component library
+* Built using **Shadcn UI**, **Radix UI**, and **Tailwind CSS**
+* Used across `web` and `docs` apps
+
+### 🧹 `packages/eslint-config`
+
+* Centralized ESLint rules
+* Ensures consistent code quality across all apps
+
+### 🧠 `packages/ts-config`
+
+* Shared TypeScript configurations
+* Enforces consistent typing and compiler options
+
+---
+
+## ⚡ Turborepo Usage
+
+Artifex leverages Turborepo for:
+
+* Parallel execution of dev servers
+* Optimized build pipelines
+* Task dependency management
+* Incremental caching for faster builds
 
 Example:
 
-````mdx
----
-title: "Introduction"
-description: "Welcome to the documentation of Artifex.js — the creative AI library."
----
-
-# 🎨 Welcome to Artifex.js
-
-Artifex.js is a library for **creative AI manipulation**, enabling developers and artists to design,
-blend, and generate art using intelligent models.
-
-> 💡 MDX lets you mix Markdown with React components:
-```tsx
-<Example code="npm install artifex" />
-````
-
-````
-
----
-
-## 🧰 Configuration
-
-### `next.config.js`
-
-Example setup for MDX + RSC compatibility:
-
-```js
-const nextConfig = {
-  experimental: {
-    serverExternalPackages: [],
-  },
-  transpilePackages: ['next-mdx-remote'],
-};
-
-export default nextConfig;
-````
-
----
-
-## 🧱 Built With
-
-* [Next.js](https://nextjs.org/) — React framework for production
-* [MDX](https://mdxjs.com/) — Markdown + JSX hybrid format
-* [Tailwind CSS](https://tailwindcss.com/) — utility-first CSS framework
-* [Shadcn/UI](https://ui.shadcn.com/) — modern accessible UI components
-* [Lucide Icons](https://lucide.dev/) — beautiful open-source icons
-
----
-
-## 🧠 Philosophy
-
-> "Code is the brush, AI is the color, and creativity is the canvas."
-
-This boilerplate aims to **empower developers and digital artists** to build beautiful documentation that showcases their projects — whether it's a creative AI library, a toolkit, or a research project.
-
----
-
-## 🌐 Deployment
-
-Deploy in one click with **[Vercel](https://vercel.com)**:
-
 ```bash
-vercel deploy
+bun dev
+bun build
+bun lint
 ```
 
-Or export static HTML for **GitHub Pages**:
+---
 
-```bash
-npm run build
-npm run export
-```
+## 🧱 Tech Stack
 
-Then deploy the `out/` folder.
+* **Runtime & Package Manager**: Bun
+* **Monorepo Tooling**: Turborepo
+* **Frontend**: Next.js, Tailwind CSS
+* **UI System**: Shadcn UI
+* **Backend**: Bun-based microservices
+* **Linting**: ESLint
+* **Typing**: TypeScript
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome!
-If you’d like to add features or fix bugs:
+Contributions are welcome 🚀
 
 1. Fork the repository
 2. Create a feature branch:
@@ -160,9 +160,11 @@ If you’d like to add features or fix bugs:
 3. Commit your changes:
 
    ```bash
-   git commit -m "Add my feature"
+   git commit -m "feat: add new feature"
    ```
 4. Push the branch and open a Pull Request
+
+Please ensure your code follows the shared ESLint and TypeScript rules.
 
 ---
 
@@ -176,12 +178,10 @@ MIT License © 2025 — [Hermann Razafindranaivo](https://github.com/Herman-Riah
 
 For questions, ideas, or collaboration:
 
-* 🧩 GitHub Issues: [Create an issue](https://github.com/Herman-Riah19/boiler-plate-riah/issues)
-* 📧 Email: *[contact@riah.dev](mailto:contact@riah.dev)* (optional placeholder)
-* 🌍 Website: [https://riah.dev](https://riah.dev) *(optional placeholder)*
+* 🧩 GitHub Issues: Open an issue
+* 📧 Email: *[contact@riah.dev](mailto:contact@riah.dev)* *(optional)*
+* 🌍 Website: *[https://riah.dev](https://riah.dev)* *(optional)*
 
 ---
 
-> 🪄 *Boiler Plate Riah — A creative foundation for modern AI-driven documentation sites.*
-
-```
+> ⚙️ **Artifex** — A scalable Bun monorepo foundation for modern microservice-driven applications.
