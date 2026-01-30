@@ -1,17 +1,12 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/ui/card';
-import { Badge } from '@repo/ui/components/ui/badge';
-import { Button } from '@repo/ui/components/ui/button';
 import { 
   FileText, 
   Wallet, 
   Building2, 
   FileText as FileIcon,
   TrendingUp,
-  Activity
 } from 'lucide-react';
-import Link from 'next/link';
 import { ContractServices } from '@/services/contractServices';
 import { useAuthStore } from '@/store/auth-store';
 import { CardStatistic } from '@/components/card/card-statistic';
@@ -38,7 +33,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Tableau de bord</h1>
         <p className="text-gray-600">Bienvenue sur votre plateforme de gestion blockchain</p>

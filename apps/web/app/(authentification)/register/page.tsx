@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@repo/ui/components/ui/button";
-import { Input } from "@repo/ui/components/ui/input";
-import { Label } from "@repo/ui/components/ui/label";
 import {
   Card,
   CardContent,
@@ -15,7 +13,6 @@ import {
 import { UserServices } from "@/services/userServices";
 import { useForm } from "react-hook-form";
 import { SignupFormData, SignupSchema } from "@/validators/user-validator";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@repo/ui/components/ui/form";
 import { FormTextfield } from "@repo/ui/components/composable/FormTextfield";
