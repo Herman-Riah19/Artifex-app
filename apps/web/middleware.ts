@@ -6,6 +6,10 @@ export function middleware(req: NextRequest) {
 
   const publicRoutes = ["/", "/login", "/register"];
 
+  if (pathname.startsWith("/assets")) {
+    return NextResponse.next();
+  }
+
   if (!accessToken) {
     if (!publicRoutes.includes(pathname)) {
       return NextResponse.redirect(new URL("/login", req.url));
@@ -22,5 +26,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|auth|favicon.ico).*)"],
+  matcher: ["/((?!_next|api|auth|favicon.ico|assets).*)"],
 };

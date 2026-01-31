@@ -1,4 +1,4 @@
-'use client';
+'use server';
 
 import { 
   FileText, 
@@ -15,10 +15,10 @@ import { CardActiviteRecent, CardStatisticRecent } from '@/components/card/card-
 
 export default async function DashboardPage() {
   const token = useAuthStore.getState().token;
-  const contracts = await ContractServices.getAllContracts(token as string);
+  const contracts = await ContractServices.getAllContracts(token || '');
 
   const stats = [
-    { name: 'Contrats actifs', value: contracts.length.toString(), icon: FileText, color: 'bg-blue-500' },
+    { name: 'Contrats actifs', value: contracts.length, icon: FileText, color: 'bg-blue-500' },
     { name: 'Wallets', value: '8', icon: Wallet, color: 'bg-green-500' },
     { name: 'Organisations', value: '3', icon: Building2, color: 'bg-purple-500' },
     { name: 'Transactions', value: '156', icon: TrendingUp, color: 'bg-orange-500' },

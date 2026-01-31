@@ -97,7 +97,7 @@ export const FAQ = () => {
           >
             Got
             <br />
-            <span className="text-secondary">Questions?</span>
+            <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Questions?</span>
           </Typography>
 
           <Typography

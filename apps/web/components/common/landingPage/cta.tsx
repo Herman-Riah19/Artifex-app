@@ -155,7 +155,7 @@ export function CTA() {
           >
             Choose Your
             <br />
-            <span className="text-secondary">Perfect Plan</span>
+            <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Perfect Plan</span>
           </Typography>
 
           <Typography

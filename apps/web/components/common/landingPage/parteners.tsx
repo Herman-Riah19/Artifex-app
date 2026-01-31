@@ -10,13 +10,13 @@ import React from "react";
 export function Parteners() {
   const partners = [
     {
-      logo: "/next.svg",
+      logo: "/assets/partners/next.svg",
       enterprise: "Next.js",
       link: "https://www.nextjs.org/",
       description: "The React Framework for Production",
     },
     {
-      logo: "/vercel.svg",
+      logo: "/assets/partners/vercel.svg",
       enterprise: "Vercel",
       link: "https://www.vercel.com",
       description: "Platform for frontend frameworks",
@@ -125,7 +125,7 @@ export function Parteners() {
                 {[...partners, ...partners].map((partner, index) => (
                   <div
                     key={`scroll-${index}`}
-                    className="flex-shrink-0 bg-background border rounded-xl p-6 min-w-[200px]"
+                    className="shrink-0 bg-background border rounded-xl p-6 min-w-50"
                   >
                     <div className="flex items-center gap-4">
                       <img
